@@ -53,7 +53,9 @@ const getData = function(currentCity) {
                             const Humidity = responseJSON.list[i].main.humidity;
                            
                             const card = document.createElement("div");
-                            $("card").append(Temp);
+                            card.appendChild(Temp);
+                            const element = document.getElementById("5day");
+                            element.appendChild(card);
                         }
 
                 })
