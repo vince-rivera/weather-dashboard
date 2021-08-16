@@ -50,10 +50,10 @@ const getData = function(currentCity) {
                         for (let i = 1; i <= 5; i++ ) {
                             const Temp = responseJSON.list[i].main.temp;
                             const WindSpeed = responseJSON.list[i].wind.speed;
-                            const Humidity= responseJSON.list[i].main.humidity;
-                            console.log(Temp);
-                            console.log(WindSpeed);
-                            console.log(Humidity);
+                            const Humidity = responseJSON.list[i].main.humidity;
+                           
+                            const card = document.createElement("div");
+                            $("card").append(Temp);
                         }
 
                 })
