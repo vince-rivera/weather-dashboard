@@ -1,4 +1,7 @@
 const weatherKey = '1976d34e0044125d8389060ac548f992'; 
+const degrees = '\xB0F';
+const speed = 'MPH';
+const percent = '%';
 
 const getData = function(currentCity) {
     console.log(currentCity);
@@ -8,21 +11,41 @@ const getData = function(currentCity) {
             return response.json();
         })
         .then(responseJSON => {
+            console.log(responseJSON);
+            //grab lat and lon for city
             const lat = responseJSON.coord.lat;
             const lon = responseJSON.coord.lon;
+            const nameCity = responseJSON.name;
             console.log(lon);
             console.log(lat);
+            console.log(nameCity);
+            
 
-            fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={part}&appid=${weatherKey}`)
+            fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherKey}`)
                 .then(response => {
                     console.log(response);
                     return response.json();
                 })
                 .then(responseJSON => {
                     console.log(responseJSON);
+                    //get current temp, wind speed, humidity, uv index
+                    const currentTemp = responseJSON.current.temp;
+                    const windSpeed = responseJSON.current.wind_speed;
+                    const currentHumidity= responseJSON.current.humidity;
+                    const uvIndex = responseJSON.current.uvi;
+
+                        document.getElementById("city").innerHTML = `${nameCity}`
+                        document.getElementById("currentTemp").innerHTML = "Temp: " + `${currentTemp} ${degrees}`;
+                        document.getElementById("currentHumidity").innerHTML = "Wind: " + `${windSpeed} ${speed}`;
+                        document.getElementById("currentWindSpeed").innerHTML = "Humidity: " + `${currentHumidity} ${percent}`;
+                        document.getElementById("uvIndex").innerHTML = "UV Index: " + `${uvIndex}`;
+
                 })
-
-
+              
+        })
+        fetch(`api.openweathermap.org/data/2.5/forecast?q=${currentCity}&appid=${weatherKey}`)
+        .then(response => {
+            return response.json();
         })
 }
 function citysearch() {
