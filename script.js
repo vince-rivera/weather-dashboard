@@ -23,29 +23,40 @@ const getData = function(currentCity) {
 
             fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherKey}`)
                 .then(response => {
-                    console.log(response);
                     return response.json();
                 })
                 .then(responseJSON => {
-                    console.log(responseJSON);
+                
                     //get current temp, wind speed, humidity, uv index
                     const currentTemp = responseJSON.current.temp;
-                    const windSpeed = responseJSON.current.wind_speed;
+                    const currentWindSpeed = responseJSON.current.wind_speed;
                     const currentHumidity= responseJSON.current.humidity;
                     const uvIndex = responseJSON.current.uvi;
 
                         document.getElementById("city").innerHTML = `${nameCity}`
                         document.getElementById("currentTemp").innerHTML = "Temp: " + `${currentTemp} ${degrees}`;
-                        document.getElementById("currentHumidity").innerHTML = "Wind: " + `${windSpeed} ${speed}`;
+                        document.getElementById("currentHumidity").innerHTML = "Wind: " + `${currentWindSpeed} ${speed}`;
                         document.getElementById("currentWindSpeed").innerHTML = "Humidity: " + `${currentHumidity} ${percent}`;
                         document.getElementById("uvIndex").innerHTML = "UV Index: " + `${uvIndex}`;
 
                 })
-              
-        })
-        fetch(`api.openweathermap.org/data/2.5/forecast?q=${currentCity}&appid=${weatherKey}`)
-        .then(response => {
-            return response.json();
+                fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${currentCity}&units=imperial&appid=${weatherKey}`)
+                .then(response => {
+                    return response.json();
+                })
+                .then(responseJSON => {
+                    console.log(responseJSON);
+                    
+                        for (let i = 1; i <= 5; i++ ) {
+                            const Temp = responseJSON.list[i].main.temp;
+                            const WindSpeed = responseJSON.list[i].wind.speed;
+                            const Humidity= responseJSON.list[i].main.humidity;
+                            console.log(Temp);
+                            console.log(WindSpeed);
+                            console.log(Humidity);
+                        }
+
+                })
         })
 }
 function citysearch() {
